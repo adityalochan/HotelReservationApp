@@ -4,11 +4,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Customer {
-    String firstName;
-    String lastName;
-    String email;
-    String regex = "^(.+)@(.+)$";
-    Pattern pattern = Pattern.compile(regex);
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String regex = "^(.+)@(.+)$";
+    private Pattern pattern = Pattern.compile(regex);
 
     public Customer(String firstName, String lastName, String email){
         this.firstName=firstName;
