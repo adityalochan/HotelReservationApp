@@ -5,7 +5,8 @@ public class Room implements IRoom{
     Double price;
     RoomType enumeration;
 
-    public Room(){
+    public Room(String roomNumber){
+        this.roomNumber=roomNumber;
     }
     public Room(String roomNumber, Double price, RoomType enumeration){
         this.roomNumber=roomNumber;
