@@ -2,7 +2,7 @@ package model;
 
 public class Room implements IRoom{
     private String roomNumber;
-    private Double price;
+    protected Double price;
     private RoomType enumeration;
 
     public Room(){}
