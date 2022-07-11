@@ -3,10 +3,13 @@ package api;
 import model.Customer;
 import model.IRoom;
 import model.Reservation;
+import service.ReservationService;
+
 import java.util.*;
 
 public class HotelResource {
     Reservation reservation = new Reservation();
+    ReservationService reservationService = new ReservationService();
     private String firstName;
     private String lastName;
     List<Reservation> reservationList = new ArrayList<>();
@@ -21,9 +24,9 @@ public class HotelResource {
         new Customer(firstName,lastName,email);
     }
 
-//    public IRoom getRoom(String roomNumber){
-//
-//    }
+    public IRoom getRoom(String roomNumber){
+        return reservationService.getARoom(roomNumber);
+    }
 
     public Reservation bookARoom(String customerEmail, IRoom room, Date checkInDate, Date checkOutDate){
         Customer customer = new Customer(firstName,lastName,customerEmail);
@@ -37,9 +40,9 @@ public class HotelResource {
         return mapOfReservation.get(customerEmail);
     }
 
-//
-//    public Collection<IRoom> findARoom(Date checkIn, Date checkOut){
-//
-//    }
+
+    public Collection<IRoom> findARoom(Date checkIn, Date checkOut){
+        return null;
+    }
 
 }

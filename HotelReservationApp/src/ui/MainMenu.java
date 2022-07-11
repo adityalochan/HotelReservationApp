@@ -16,10 +16,10 @@ public class MainMenu {
                     int selection = Integer.parseInt(scanner.nextLine());
 
                     if(selection==1){ // find and reserve room
-                        System.out.println("test1");
+                        findAndReserveRoom();
                         keepRunning=false;
                     }else if (selection==2){ // see all reservations
-                        System.out.println("test2");
+                        allReservation();
                         keepRunning=false;
                     } else if (selection==3) { //create account
                         createAccount();
@@ -28,7 +28,7 @@ public class MainMenu {
                         AdminMenu.adminMenu();
                         keepRunning=false;
                     } else if (selection==5) { //exit
-                        System.out.println("test4");
+                        System.out.println("Exiting System");
                         keepRunning=false;
                     } else
                         System.out.println("Please enter number between 1 and 5");
@@ -63,4 +63,13 @@ public class MainMenu {
 
         hotelResource.createCustomerAccount(email,fName,lName);
     }
+
+    public static void findAndReserveRoom(){
+
+    }
+
+    public static void allReservation(){
+
+    }
+
 }
