@@ -1,11 +1,11 @@
-package resources;
+package api;
 
 import model.Customer;
 import model.IRoom;
 import model.Reservation;
 import java.util.*;
 
-public class HotelResources {
+public class HotelResource {
     Reservation reservation = new Reservation();
     private String firstName;
     private String lastName;
@@ -15,7 +15,7 @@ public class HotelResources {
         return reservation.getCustomer();
     }
 
-    public void createACustomer(String email, String firstName, String lastName){
+    public void createCustomerAccount(String email, String firstName, String lastName){
         this.firstName=firstName;
         this.lastName=lastName;
         new Customer(firstName,lastName,email);

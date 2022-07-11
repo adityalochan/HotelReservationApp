@@ -1,4 +1,4 @@
-package resources;
+package api;
 
 import model.Customer;
 import model.IRoom;
@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class AdminResources {
+public class AdminResource {
     List<IRoom> rooms = new ArrayList<>();
     List<Customer> customers = new ArrayList<>();
     Reservation reservation = new Reservation();
