@@ -5,6 +5,7 @@ import model.IRoom;
 import model.Room;
 import model.RoomType;
 
+import java.sql.SQLOutput;
 import java.util.*;
 
 public class AdminMenu {
@@ -79,20 +80,27 @@ public class AdminMenu {
         Room room = new Room(roomNum,price,roomType);
         roomList.add(room);
         adminResource.addRoom(roomList);
-
+        System.out.println("Room was added successfully");
+        System.out.println("Would you like to add another room Y/N");
         addAnotherRoom();
-
     }
 
     public static void addAnotherRoom(){
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Would you like to add another room Y/N");
-        String c = scanner.nextLine();
-        if(c=="N")
-            AdminMenu.adminMenu();
-        else if (c=="Y")
-            addRoom();
-        else
-            System.out.println("Please enter Y(Yes) or N(No)");
+        try{
+            String c = scanner.nextLine();
+            if(c.toLowerCase().charAt(0)=='n')
+                AdminMenu.adminMenu();
+            else if (c.toLowerCase().charAt(0)=='y')
+                addRoom();
+            else{
+                System.out.println("Please enter Y(yes) or N(no)");
+                addAnotherRoom();
+            }
+        }catch (Exception e){
+            System.out.println("This is invalid input");
+            e.printStackTrace();
+        }
+
     }
 }

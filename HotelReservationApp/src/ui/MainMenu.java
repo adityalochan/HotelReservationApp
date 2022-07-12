@@ -1,8 +1,9 @@
 package ui;
 
 import api.HotelResource;
-import ui.AdminMenu;
+import model.Reservation;
 
+import java.util.Collection;
 import java.util.Scanner;
 
 public class MainMenu {
@@ -18,8 +19,8 @@ public class MainMenu {
                     if(selection==1){ // find and reserve room
                         findAndReserveRoom();
                         keepRunning=false;
-                    }else if (selection==2){ // see all reservations
-                        allReservation();
+                    }else if (selection==2){ // see current reservations
+                        currentReservation();
                         keepRunning=false;
                     } else if (selection==3) { //create account
                         createAccount();
@@ -68,8 +69,25 @@ public class MainMenu {
 
     }
 
-    public static void allReservation(){
+    public static void currentReservation(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter email format: name@domain.com");
+        String email = scanner.nextLine();
+        Collection<Reservation> tmp = hotelResource.getCustomersReservations(email);
 
+        if(tmp==null){
+            System.out.println("No records");
+            mainMenu();
+        }
+        else{
+            try{
+                for (Reservation r:tmp) {
+                    System.out.println(r.getCustomer());
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
     }
 
 }
