@@ -78,6 +78,8 @@ public class MainMenu {
     }
 
     public static void findAndReserveRoom(){
+        System.out.println("No rooms available \n");
+        mainMenu();
     }
 
     public static void myReservation(){
