@@ -58,26 +58,26 @@ public class AdminMenu {
         Collection<Customer> customersList = adminResource.getAllCustomers();
         if(customersList.isEmpty()){
             System.out.println("No Customers Present");
-            adminMenu();
         }
         else{
             for (Customer customer:customersList) {
                 System.out.println(customer.toString());
             }
         }
+        adminMenu();
     }
 
     public static void allRooms(){
         Collection<IRoom> roomsList = adminResource.getAllRooms();
         if(roomsList.isEmpty()){
             System.out.println("No Rooms Present");
-            adminMenu();
         }
         else{
             for (IRoom room:roomsList) {
                 System.out.println(room.toString());
             }
         }
+        adminMenu();
     }
 
     public static void allReservations() {

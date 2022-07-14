@@ -2,7 +2,6 @@ package ui;
 
 import api.HotelResource;
 import model.Reservation;
-
 import java.util.Collection;
 import java.util.Scanner;
 import java.util.regex.Pattern;
