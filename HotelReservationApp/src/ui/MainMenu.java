@@ -5,6 +5,7 @@ import model.Reservation;
 
 import java.util.Collection;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 public class MainMenu {
     static HotelResource hotelResource = new HotelResource();
@@ -20,7 +21,7 @@ public class MainMenu {
                         findAndReserveRoom();
                         keepRunning=false;
                     }else if (selection==2){ // see current reservations
-                        currentReservation();
+                        myReservation();
                         keepRunning=false;
                     } else if (selection==3) { //create account
                         createAccount();
@@ -57,24 +58,37 @@ public class MainMenu {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter email format: name@domain.com");
         String email = scanner.nextLine();
+        while(isNotValidEmail(email)){
+            System.out.println("Please enter valid email");
+            email = scanner.nextLine();
+        }
         System.out.println("First Name");
         String fName = scanner.nextLine();
         System.out.println("Last Name");
         String lName = scanner.nextLine();
 
-        hotelResource.createCustomerAccount(email,fName,lName);
+
+        try{
+            hotelResource.createCustomerAccount(email,fName,lName);
+            System.out.println("Account Created Successfully");
+            mainMenu();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     public static void findAndReserveRoom(){
-
     }
 
-    public static void currentReservation(){
+    public static void myReservation(){
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter email format: name@domain.com");
         String email = scanner.nextLine();
+        while(isNotValidEmail(email)) {
+            System.out.println("Please enter a valid email");
+            email = scanner.nextLine();
+        }
         Collection<Reservation> tmp = hotelResource.getCustomersReservations(email);
-
         if(tmp==null){
             System.out.println("No records");
             mainMenu();
@@ -88,6 +102,12 @@ public class MainMenu {
                 e.printStackTrace();
             }
         }
+    }
+
+    public static boolean isNotValidEmail(String email){
+        String regex = "^(.+)@(.+)$";
+        Pattern pattern = Pattern.compile(regex);
+        return !pattern.matcher(email).matches();
     }
 
 }

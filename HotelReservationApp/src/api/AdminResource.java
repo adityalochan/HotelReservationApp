@@ -3,38 +3,34 @@ package api;
 import model.Customer;
 import model.IRoom;
 import model.Reservation;
+import service.CustomerService;
+import service.ReservationService;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 public class AdminResource {
-    List<IRoom> rooms = new ArrayList<>();
-    List<Customer> customers = new ArrayList<>();
+    CustomerService customerService = new CustomerService();
+    ReservationService reservationService = new ReservationService();
     Reservation reservation = new Reservation();
 
     public Customer getCustomer(String email){
         return reservation.getCustomer();
     }
 
-    public void addRoom(List<IRoom> rooms){
-        this.rooms=rooms;
-        for(IRoom room : rooms){
-            reservation.setRoom(room);
-        }
+    public void addRoom(IRoom rooms){
+        reservationService.addRoom(rooms);
     }
 
     public Collection<IRoom> getAllRooms(){
-        return this.rooms;
+        return reservationService.getAllRooms();
     }
 
     public Collection<Customer> getAllCustomers(){
-        customers.add(reservation.getCustomer());
-        return customers;
+        return customerService.getAllCustomers();
     }
 
     public void displayAllReservations(){
-        System.out.printf("No reservations at the moment");
+        reservationService.printAllReservation();
     }
 
 

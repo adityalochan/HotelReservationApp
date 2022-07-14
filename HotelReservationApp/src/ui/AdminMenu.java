@@ -1,6 +1,7 @@
 package ui;
 
 import api.AdminResource;
+import model.Customer;
 import model.IRoom;
 import model.Room;
 import model.RoomType;
@@ -11,7 +12,6 @@ import java.util.*;
 public class AdminMenu {
     static List<IRoom> roomList = new LinkedList<>();
     static AdminResource adminResource = new AdminResource();
-
     public static void adminMenu(){
         boolean keepRunning=true;
         try(Scanner scanner = new Scanner(System.in)){
@@ -57,15 +57,33 @@ public class AdminMenu {
     }
 
     public static void allCustomers(){
-
+        Collection<Customer> customersList = adminResource.getAllCustomers();
+        if(customersList.isEmpty()){
+            System.out.println("No Customers Present");
+            adminMenu();
+        }
+        else{
+            for (Customer customer:customersList) {
+                System.out.println(customer.toString());
+            }
+        }
     }
 
     public static void allRooms(){
-
+        Collection<IRoom> roomsList = adminResource.getAllRooms();
+        if(roomsList.isEmpty()){
+            System.out.println("No Rooms Present");
+            adminMenu();
+        }
+        else{
+            for (IRoom room:roomsList) {
+                System.out.println(room.toString());
+            }
+        }
     }
 
     public static void allReservations() {
-
+        adminResource.displayAllReservations();
     }
 
     public static void addRoom(){
@@ -77,9 +95,7 @@ public class AdminMenu {
         System.out.println("Enter room type: 1 for single bed, 2 for double bed");
         RoomType roomType = Integer.parseInt(scanner.nextLine())==1 ? RoomType.SINGLE:RoomType.DOUBLE;
 
-        Room room = new Room(roomNum,price,roomType);
-        roomList.add(room);
-        adminResource.addRoom(roomList);
+        adminResource.addRoom(new Room(roomNum,price,roomType));
         System.out.println("Room was added successfully");
         System.out.println("Would you like to add another room Y/N");
         addAnotherRoom();

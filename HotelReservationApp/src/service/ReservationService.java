@@ -11,14 +11,20 @@ public class ReservationService {
     IRoom room;
     static Map<Customer,List<Reservation>> mapOfReservation = new HashMap<>();
     static List<Reservation> reservationList = new ArrayList<>();
+    List<IRoom> rooms = new ArrayList<>();
 
-    // TO-DO : not sure on functionality
     public void addRoom(IRoom room){
-//         new Room();
+         rooms.add(room);
     }
+
     public Room getARoom(String roomId){
         return new Room(roomId);
     }
+
+    public Collection<IRoom> getAllRooms(){
+        return rooms;
+    }
+
     public Reservation reserveARoom(Customer customer, IRoom room, Date checkInDate, Date checkOutDate){
         Reservation reservation = new Reservation(customer,room,checkInDate,checkOutDate);
         reservationList.add(reservation);
@@ -31,8 +37,12 @@ public class ReservationService {
     }
 
     public void printAllReservation(){
-        for(Reservation res : reservationList){
-            System.out.println(res.getCustomer());
+        if(reservationList.isEmpty()){
+            System.out.println("No Reservations Currently");
+        }else {
+            for (Reservation reservation : reservationList) {
+                System.out.println(reservation + " \n");
+            }
         }
     }
 }
