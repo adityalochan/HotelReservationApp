@@ -6,11 +6,9 @@ import model.IRoom;
 import model.Room;
 import model.RoomType;
 
-import java.sql.SQLOutput;
 import java.util.*;
 
 public class AdminMenu {
-    static List<IRoom> roomList = new LinkedList<>();
     static AdminResource adminResource = new AdminResource();
     public static void adminMenu(){
         boolean keepRunning=true;
