@@ -1,9 +1,12 @@
 package service;
 
+import api.AdminResource;
 import model.Customer;
 import model.IRoom;
 import model.Reservation;
 import model.Room;
+import ui.AdminMenu;
+import ui.MainMenu;
 
 import java.util.*;
 
@@ -39,6 +42,7 @@ public class ReservationService {
     public void printAllReservation(){
         if(reservationList.isEmpty()){
             System.out.println("No Reservations Currently");
+            AdminMenu.adminMenu();
         }else {
             for (Reservation reservation : reservationList) {
                 System.out.println(reservation + " \n");
