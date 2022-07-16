@@ -1,31 +1,26 @@
 package service;
 
-import api.AdminResource;
 import model.Customer;
 import model.IRoom;
 import model.Reservation;
-import model.Room;
 import ui.AdminMenu;
-import ui.MainMenu;
-
 import java.util.*;
 
 public class ReservationService {
-    IRoom room;
     static Map<Customer,List<Reservation>> mapOfReservation = new HashMap<>();
     static List<Reservation> reservationList = new ArrayList<>();
-    List<IRoom> rooms = new ArrayList<>();
+    Map<String,IRoom> rooms = new HashMap<>();
 
     public void addRoom(IRoom room){
-         rooms.add(room);
+         rooms.put(room.getRoomNumber(),room);
     }
 
-    public Room getARoom(String roomId){
-        return new Room(roomId);
+    public IRoom getARoom(String roomId){
+        return rooms.get(roomId);
     }
 
     public Collection<IRoom> getAllRooms(){
-        return rooms;
+        return rooms.values();
     }
 
     public Reservation reserveARoom(Customer customer, IRoom room, Date checkInDate, Date checkOutDate){
@@ -48,5 +43,9 @@ public class ReservationService {
                 System.out.println(reservation + " \n");
             }
         }
+    }
+
+    String classInvoked() {
+        return "Class ReservationService Invoked";
     }
 }

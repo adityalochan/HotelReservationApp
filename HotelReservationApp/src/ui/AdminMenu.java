@@ -10,39 +10,39 @@ import java.util.*;
 
 public class AdminMenu {
     static AdminResource adminResource = new AdminResource();
-    public static void adminMenu(){
-        boolean keepRunning=true;
-        try(Scanner scanner = new Scanner(System.in)){
-            while(keepRunning){
-                try{
-                    printAdminMenu();
-                    int selection = Integer.parseInt(scanner.nextLine());
-                    if(selection==1){ // print all customers
+
+    public static void adminMenu() {
+        Scanner scanner = new Scanner(System.in);
+        try {
+            printAdminMenu();
+            int selection = Integer.parseInt(scanner.nextLine());
+            if (selection >= 1 && selection <= 5) {
+                switch (selection) {
+                    case 1:
                         allCustomers();
-                        keepRunning=false;
-                    }else if (selection==2){ //print all rooms
+                        break;
+                    case 2:
                         allRooms();
-                        keepRunning=false;
-                    } else if (selection==3) { //print all reservations
+                        break;
+                    case 3:
                         allReservations();
-                        keepRunning=false;
-                    } else if (selection==4) { //addRoom
+                        break;
+                    case 4:
                         addRoom();
-                        keepRunning=false;
-                    } else if (selection==5) { //ui.MainMenu
+                        break;
+                    case 5:
                         MainMenu.mainMenu();
-                        keepRunning=false;
-                    } else
-                        System.out.println("Please enter number between 1 and 5");
-                }catch (Exception e){
-                    e.printStackTrace();
-                    System.out.println("Error Invalid Input");
+                        break;
                 }
-            }
+            } else
+                System.out.println("Please enter number between 1 and 5");
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Error Invalid Input");
         }
     }
 
-    public static void printAdminMenu(){
+    public static void printAdminMenu() {
         System.out.println("Admin Menu");
         System.out.println("----------------------------------------");
         System.out.println("1. See all Customers");
@@ -54,26 +54,24 @@ public class AdminMenu {
         System.out.println("Please select number for menu select?");
     }
 
-    public static void allCustomers(){
+    public static void allCustomers() {
         Collection<Customer> customersList = adminResource.getAllCustomers();
-        if(customersList.isEmpty()){
+        if (customersList.isEmpty()) {
             System.out.println("No Customers Present");
-        }
-        else{
-            for (Customer customer:customersList) {
+        } else {
+            for (Customer customer : customersList) {
                 System.out.println(customer.toString());
             }
         }
         adminMenu();
     }
 
-    public static void allRooms(){
+    public static void allRooms() {
         Collection<IRoom> roomsList = adminResource.getAllRooms();
-        if(roomsList.isEmpty()){
+        if (roomsList.isEmpty()) {
             System.out.println("No Rooms Present");
-        }
-        else{
-            for (IRoom room:roomsList) {
+        } else {
+            for (IRoom room : roomsList) {
                 System.out.println(room.toString());
             }
         }
@@ -84,34 +82,34 @@ public class AdminMenu {
         adminResource.displayAllReservations();
     }
 
-    public static void addRoom(){
+    public static void addRoom() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter room number");
         String roomNum = scanner.nextLine();
         System.out.println("Enter price per night");
         Double price = Double.parseDouble(scanner.nextLine());
         System.out.println("Enter room type: 1 for single bed, 2 for double bed");
-        RoomType roomType = Integer.parseInt(scanner.nextLine())==1 ? RoomType.SINGLE:RoomType.DOUBLE;
+        RoomType roomType = Integer.parseInt(scanner.nextLine()) == 1 ? RoomType.SINGLE : RoomType.DOUBLE;
 
-        adminResource.addRoom(new Room(roomNum,price,roomType));
+        adminResource.addRoom(new Room(roomNum, price, roomType));
         System.out.println("Room was added successfully");
         System.out.println("Would you like to add another room Y/N");
         addAnotherRoom();
     }
 
-    public static void addAnotherRoom(){
+    public static void addAnotherRoom() {
         Scanner scanner = new Scanner(System.in);
-        try{
+        try {
             String c = scanner.nextLine();
-            if(c.toLowerCase().charAt(0)=='n')
+            if (c.toLowerCase().charAt(0) == 'n')
                 AdminMenu.adminMenu();
-            else if (c.toLowerCase().charAt(0)=='y')
+            else if (c.toLowerCase().charAt(0) == 'y')
                 addRoom();
-            else{
+            else {
                 System.out.println("Please enter Y(yes) or N(no)");
                 addAnotherRoom();
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("This is invalid input");
             e.printStackTrace();
         }

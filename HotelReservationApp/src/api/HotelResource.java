@@ -3,19 +3,20 @@ package api;
 import model.Customer;
 import model.IRoom;
 import model.Reservation;
+import service.CustomerService;
 import service.ReservationService;
 
 import java.util.*;
 
 public class HotelResource {
-    Reservation reservation = new Reservation();
     ReservationService reservationService = new ReservationService();
+    CustomerService customerService = new CustomerService();
     private String firstName;
     private String lastName;
     List<Reservation> reservationList = new ArrayList<>();
     private Map<String,List<Reservation>> mapOfReservation = new HashMap<>();
     public Customer getCustomer(String email){
-        return reservation.getCustomer();
+        return customerService.getCustomer(email);
     }
 
     public void createCustomerAccount(String email, String firstName, String lastName){

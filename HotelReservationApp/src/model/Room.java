@@ -1,15 +1,10 @@
 package model;
 
 public class Room implements IRoom{
-    private String roomNumber;
-    protected Double price;
-    private RoomType enumeration;
+    private final String roomNumber;
+    protected final Double price;
+    private final RoomType enumeration;
 
-    public Room(){}
-
-    public Room(String roomNumber){
-        this.roomNumber=roomNumber;
-    }
     public Room(String roomNumber, Double price, RoomType enumeration){
         this.roomNumber=roomNumber;
         this.price=price;
@@ -34,18 +29,6 @@ public class Room implements IRoom{
     @Override
     public boolean isFree() {
         return false;
-    }
-
-    public void setRoomNumber(String roomNumber){
-        this.roomNumber=roomNumber;
-    }
-
-    public void setRoomPrice(Double price){
-        this.price=price;
-    }
-
-    public void setRoomType(RoomType enumeration){
-        this.enumeration=enumeration;
     }
 
     @Override
