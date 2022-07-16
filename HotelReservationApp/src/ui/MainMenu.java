@@ -1,9 +1,14 @@
 package ui;
 
 import api.HotelResource;
+import model.IRoom;
 import model.Reservation;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Date;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
@@ -76,8 +81,22 @@ public class MainMenu {
         }
     }
 
-    public static void findAndReserveRoom() {
-        System.out.println("No rooms available \n");
+    public static void findAndReserveRoom(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter checkIn Date mm/dd/yyyy example 02/01/2022");
+        Date checkInDate = correctDate(scanner);
+        while(checkInDate==null)
+            checkInDate = correctDate(scanner);
+        System.out.println("Enter checkOut Date mm/dd/yyy example 2/21/2022");
+        Date checkOutDate = correctDate(scanner);
+        while(checkOutDate==null)
+            checkOutDate = correctDate(scanner);
+
+        Collection<IRoom> availableRooms = hotelResource.findARoom(checkInDate,checkOutDate);
+        if(!availableRooms.isEmpty())
+            availableRooms.forEach(System.out::println);
+        else
+            System.out.println("No booking");
         mainMenu();
     }
 
@@ -110,4 +129,15 @@ public class MainMenu {
         return !pattern.matcher(email).matches();
     }
 
+    public static Date correctDate(Scanner scanner){
+        SimpleDateFormat checkDate = new SimpleDateFormat("mm/dd/yyyy");
+        Date val;
+        try {
+            val = checkDate.parse(scanner.nextLine());
+        }catch (Exception e){
+            System.out.println("Please enter valid date of format mm/dd/yyyy");
+            return null;
+        }
+        return val;
+    }
 }

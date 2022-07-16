@@ -5,6 +5,7 @@ import model.IRoom;
 import model.Reservation;
 import ui.AdminMenu;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class ReservationService {
     private static ReservationService reservationService = new ReservationService( );
@@ -35,6 +36,20 @@ public class ReservationService {
         reservationList.add(reservation);
         mapOfReservation.put(customer,reservationList);
         return reservation;
+    }
+
+
+    public Collection<IRoom> availableRooms(Date checkInDate, Date checkOutDate){
+        Collection<IRoom> unavailableRooms = new ArrayList<>();
+        for (Reservation currentReservation:reservationList) {
+            if(checkInDate.before(currentReservation.getCheckOutDate()) && checkOutDate.after(currentReservation.getCheckInDate())){
+                unavailableRooms.add(currentReservation.getRoom());
+            }
+        }
+        return rooms.values().
+                        stream().
+                            filter(availableRooms -> unavailableRooms.stream().noneMatch(notAvailableRoom -> notAvailableRoom.equals(availableRooms))).
+                                collect(Collectors.toList());
     }
 
     public Collection<Reservation> getCustomerReservation(Customer customer){

@@ -34,8 +34,8 @@ public class Reservation {
 
     @Override
     public String toString(){
-        if(checkInDate.equals(new SimpleDateFormat("dd/MM/yy")))
-            return "Welcome welcome!!!!";
+        if(checkInDate.equals(new SimpleDateFormat("mm/dd/yyyy")))
+            return "Welcome welcome welcome welcome welcome weeeeeelllllllllllccoooooommmmeeeeeeeeeeeee!!!!";
         return "Customer CheckIn::" + checkInDate + " CheckOut:: " + checkOutDate;
     }
 
