@@ -8,8 +8,8 @@ import service.ReservationService;
 import java.util.Collection;
 
 public class AdminResource {
-    CustomerService customerService = new CustomerService();
-    ReservationService reservationService = new ReservationService();
+    CustomerService customerService = CustomerService.getInstance();
+    ReservationService reservationService = ReservationService.getInstance();
 
     public Customer getCustomer(String email){
         return customerService.getCustomer(email);

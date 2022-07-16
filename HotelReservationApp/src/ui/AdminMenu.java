@@ -10,7 +10,7 @@ import java.util.*;
 
 public class AdminMenu {
     static AdminResource adminResource = new AdminResource();
-
+    static LinkedHashSet<String> roomSet = new LinkedHashSet<>();
     public static void adminMenu() {
         Scanner scanner = new Scanner(System.in);
         try {
@@ -18,16 +18,16 @@ public class AdminMenu {
             int selection = Integer.parseInt(scanner.nextLine());
             if (selection >= 1 && selection <= 5) {
                 switch (selection) {
-                    case 1:
+                    case 1: // all customers
                         allCustomers();
                         break;
-                    case 2:
+                    case 2: // all rooms
                         allRooms();
                         break;
-                    case 3:
+                    case 3: // all reservations
                         allReservations();
                         break;
-                    case 4:
+                    case 4: // add room
                         addRoom();
                         break;
                     case 5:
@@ -86,6 +86,10 @@ public class AdminMenu {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter room number");
         String roomNum = scanner.nextLine();
+        while(!roomSet.add(roomNum)){
+            System.out.println("Please enter unique room");
+            roomNum = scanner.nextLine();
+        }
         System.out.println("Enter price per night");
         Double price = Double.parseDouble(scanner.nextLine());
         System.out.println("Enter room type: 1 for single bed, 2 for double bed");

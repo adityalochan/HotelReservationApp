@@ -7,9 +7,16 @@ import ui.AdminMenu;
 import java.util.*;
 
 public class ReservationService {
+    private static ReservationService reservationService = new ReservationService( );
     static Map<Customer,List<Reservation>> mapOfReservation = new HashMap<>();
     static List<Reservation> reservationList = new ArrayList<>();
     Map<String,IRoom> rooms = new HashMap<>();
+
+    private ReservationService(){}
+//    Reference : https://www.tutorialspoint.com/java/java_using_singleton.htm
+    public static ReservationService getInstance( ) {
+        return reservationService;
+    }
 
     public void addRoom(IRoom room){
          rooms.put(room.getRoomNumber(),room);

@@ -1,5 +1,6 @@
 package model;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Reservation {
@@ -33,6 +34,8 @@ public class Reservation {
 
     @Override
     public String toString(){
+        if(checkInDate.equals(new SimpleDateFormat("dd/MM/yy")))
+            return "Welcome welcome!!!!";
         return "Customer CheckIn::" + checkInDate + " CheckOut:: " + checkOutDate;
     }
 
