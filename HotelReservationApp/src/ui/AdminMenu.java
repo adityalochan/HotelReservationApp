@@ -1,10 +1,8 @@
 package ui;
 
 import api.AdminResource;
-import model.Customer;
-import model.IRoom;
-import model.Room;
-import model.RoomType;
+import model.*;
+import service.ReservationService;
 
 import java.util.*;
 
@@ -19,13 +17,13 @@ public class AdminMenu {
             if (selection >= 1 && selection <= 5) {
                 switch (selection) {
                     case 1: // all customers
-                        allCustomers();
+                        displayAllCustomers();
                         break;
                     case 2: // all rooms
-                        allRooms();
+                        displayAllRooms();
                         break;
                     case 3: // all reservations
-                        allReservations();
+                        displayAllReservations();
                         break;
                     case 4: // add room
                         addRoom();
@@ -54,7 +52,7 @@ public class AdminMenu {
         System.out.println("Please select number for menu select?");
     }
 
-    public static void allCustomers() {
+    public static void displayAllCustomers() {
         Collection<Customer> customersList = adminResource.getAllCustomers();
         if (customersList.isEmpty()) {
             System.out.println("No Customers Present");
@@ -66,7 +64,7 @@ public class AdminMenu {
         adminMenu();
     }
 
-    public static void allRooms() {
+    public static void displayAllRooms() {
         Collection<IRoom> roomsList = adminResource.getAllRooms();
         if (roomsList.isEmpty()) {
             System.out.println("No Rooms Present");
@@ -78,24 +76,31 @@ public class AdminMenu {
         adminMenu();
     }
 
-    public static void allReservations() {
+    public static void displayAllReservations() {
         adminResource.displayAllReservations();
     }
 
     public static void addRoom() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter room number");
-        String roomNum = scanner.nextLine();
-        while(!roomSet.add(roomNum)){
-            System.out.println("Please enter unique room");
-            roomNum = scanner.nextLine();
-        }
-        System.out.println("Enter price per night");
-        Double price = Double.parseDouble(scanner.nextLine());
-        System.out.println("Enter room type: 1 for single bed, 2 for double bed");
-        RoomType roomType = Integer.parseInt(scanner.nextLine()) == 1 ? RoomType.SINGLE : RoomType.DOUBLE;
+        try {
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("Enter room number");
 
-        adminResource.addRoom(new Room(roomNum, price, roomType));
+            String roomNum = scanner.nextLine();
+            while (!roomSet.add(roomNum)) {
+                System.out.println("Please enter unique room");
+                roomNum = scanner.nextLine();
+            }
+
+            System.out.println("Enter price per night");
+            final Double price = Double.parseDouble(scanner.nextLine());
+
+            System.out.println("Enter room type: 1 for single bed, 2 for double bed");
+            final RoomType roomType = Integer.parseInt(scanner.nextLine()) == 1 ? RoomType.SINGLE : RoomType.DOUBLE;
+
+        adminResource.addRoom(Collections.singletonList(new Room(roomNum, price, roomType)));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         System.out.println("Room was added successfully");
         System.out.println("Would you like to add another room Y/N");
         addAnotherRoom();
@@ -106,7 +111,7 @@ public class AdminMenu {
         try {
             String c = scanner.nextLine();
             if (c.toLowerCase().charAt(0) == 'n')
-                AdminMenu.adminMenu();
+                adminMenu();
             else if (c.toLowerCase().charAt(0) == 'y')
                 addRoom();
             else {
