@@ -13,17 +13,17 @@ public class Room implements IRoom{
 
     @Override
     public String getRoomNumber() {
-        return null;
+        return roomNumber;
     }
 
     @Override
     public double getRoomPrice() {
-        return 0;
+        return price;
     }
 
     @Override
     public RoomType getRoomType() {
-        return null;
+        return enumeration;
     }
 
     @Override
@@ -33,6 +33,6 @@ public class Room implements IRoom{
 
     @Override
     public String toString(){
-        return "Room Number: " + roomNumber + " Room Price: " + price;
+        return "Room Number: " + roomNumber + " Room Price: " + price + " Room Type: " + enumeration;
     }
 }
