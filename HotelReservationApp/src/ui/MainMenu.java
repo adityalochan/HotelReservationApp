@@ -93,11 +93,39 @@ public class MainMenu {
             checkOutDate = correctDate(scanner);
 
         Collection<IRoom> availableRooms = hotelResource.findARoom(checkInDate,checkOutDate);
-        if(!availableRooms.isEmpty())
+
+        if (availableRooms.isEmpty()) {
+            Collection<IRoom> substituteRooms = hotelResource.findSubstituteRooms(checkInDate, checkOutDate);
+
+            if (substituteRooms.isEmpty())
+                System.out.println("No rooms");
+            else {
+                Date substituteCheckInDate = hotelResource.defaultDays(checkInDate);
+                Date substituteCheckOutDate = hotelResource.defaultDays(checkOutDate);
+                System.out.println("These are the only substitute rooms found for the \n");
+                System.out.println("Check In Date: " + checkInDate);
+                System.out.println("Check Out Date: " + checkOutDate);
+
+                //printing substitute rooms
+                substituteRooms.forEach(System.out::println);
+                reserveRoom(substituteCheckInDate, substituteCheckOutDate, substituteRooms);
+            }
+        } else {
             availableRooms.forEach(System.out::println);
-        else
-            System.out.println("No booking");
+            reserveRoom(checkInDate, checkOutDate,availableRooms);
+        }
         mainMenu();
+    }
+
+    private static void reserveRoom(Date substituteCheckInDate, Date substituteCheckOutDate, Collection<IRoom> substituteRooms) {
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter email format: name@domain.com");
+        String email = scanner.nextLine();
+        while (isNotValidEmail(email)) {
+            System.out.println("Please enter a valid email \n");
+            email = scanner.nextLine();
+        }
     }
 
     public static void myReservation() {

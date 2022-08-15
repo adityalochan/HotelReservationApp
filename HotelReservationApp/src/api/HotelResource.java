@@ -48,4 +48,12 @@ public class HotelResource {
         return reservationService.availableRooms(checkIn,checkOut);
     }
 
+
+    public Collection<IRoom> findSubstituteRooms(Date checkInDate, Date checkOutDate) {
+        return reservationService.findSubstituteRooms(checkInDate,checkOutDate);
+    }
+
+    public Date defaultDays(Date date) {
+        return reservationService.defaultDays(date);
+    }
 }

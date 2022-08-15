@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 public class ReservationService {
     private static final ReservationService reservationService = new ReservationService( );
-    private static final Map<Customer,List<Reservation>> mapOfReservation = new HashMap<>();
+    private static final Map<Customer,List<Reservation>> reservations = new HashMap<>();
     private final List<Reservation> reservationList = new ArrayList<>();
     private final Map<String,IRoom> rooms = new HashMap<>();
 
@@ -34,13 +34,14 @@ public class ReservationService {
     public Reservation reserveARoom(final Customer customer, final IRoom room, final Date checkInDate, final Date checkOutDate){
         final Reservation reservation = new Reservation(customer,room,checkInDate,checkOutDate);
         reservationList.add(reservation);
-        mapOfReservation.put(customer,reservationList);
+        reservations.put(customer,reservationList);
         return reservation;
     }
 
 
     public Collection<IRoom> availableRooms(final Date checkInDate, final Date checkOutDate){
         final Collection<IRoom> unavailableRooms = new ArrayList<>();
+
         for (Reservation currentReservation:reservationList) {
             if(checkInDate.before(currentReservation.getCheckOutDate()) && checkOutDate.after(currentReservation.getCheckInDate())){
                 unavailableRooms.add(currentReservation.getRoom());
@@ -53,7 +54,7 @@ public class ReservationService {
     }
 
     public Collection<Reservation> getCustomerReservation(final Customer customer){
-        return mapOfReservation.get(customer);
+        return reservations.get(customer);
     }
 
     public void printAllReservation(){
@@ -67,7 +68,16 @@ public class ReservationService {
         }
     }
 
-    String classInvoked() {
-        return "Class ReservationService Invoked";
+    public Collection<IRoom> findSubstituteRooms(Date checkInDate, Date checkOutDate) {
+        return availableRooms(defaultDays(checkInDate),defaultDays(checkOutDate));
     }
+
+    public Date defaultDays(Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.DATE,8);
+        return cal.getTime();
+    }
+
+
 }
