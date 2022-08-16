@@ -38,7 +38,6 @@ public class ReservationService {
         return reservation;
     }
 
-
     public Collection<IRoom> availableRooms(final Date checkInDate, final Date checkOutDate){
         final Collection<IRoom> unavailableRooms = new ArrayList<>();
 

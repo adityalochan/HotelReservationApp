@@ -4,10 +4,8 @@ import api.HotelResource;
 import model.IRoom;
 import model.Reservation;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Date;
 import java.util.Scanner;
 import java.util.regex.Pattern;
@@ -118,14 +116,25 @@ public class MainMenu {
     }
 
     private static void reserveRoom(Date substituteCheckInDate, Date substituteCheckOutDate, Collection<IRoom> substituteRooms) {
-
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter email format: name@domain.com");
-        String email = scanner.nextLine();
-        while (isNotValidEmail(email)) {
-            System.out.println("Please enter a valid email \n");
-            email = scanner.nextLine();
-        }
+        System.out.println("Would you like to book the room? y/n");
+
+//        String c = scanner.nextLine();
+//        if (c.toLowerCase().charAt(0) == 'n')
+//            adminMenu();
+//        else if (c.toLowerCase().charAt(0) == 'y')
+//            addRoom();
+//        else {
+//            System.out.println("Please enter Y(yes) or N(no)");
+//            addAnotherRoom();
+
+
+//        System.out.println("Enter email format: name@domain.com");
+//        String email = scanner.nextLine();
+//        while (isNotValidEmail(email)) {
+//            System.out.println("Please enter a valid email \n");
+//            email = scanner.nextLine();
+//        }
     }
 
     public static void myReservation() {
