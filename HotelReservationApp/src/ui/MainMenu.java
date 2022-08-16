@@ -118,23 +118,37 @@ public class MainMenu {
     private static void reserveRoom(Date substituteCheckInDate, Date substituteCheckOutDate, Collection<IRoom> substituteRooms) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Would you like to book the room? y/n");
+        String roomToBook = scanner.nextLine();
 
-//        String c = scanner.nextLine();
-//        if (c.toLowerCase().charAt(0) == 'n')
-//            adminMenu();
-//        else if (c.toLowerCase().charAt(0) == 'y')
-//            addRoom();
-//        else {
-//            System.out.println("Please enter Y(yes) or N(no)");
-//            addAnotherRoom();
+        if(roomToBook.toLowerCase().charAt(0)=='y'){
+            System.out.println("Enter email format: name@domain.com");
+            String email = scanner.nextLine();
+            while (isNotValidEmail(email)) {
+                System.out.println("Please enter a valid email \n");
+                email = scanner.nextLine();
+            }
+            if(hotelResource.getCustomer(email)==null)
+                System.out.println("No customer found. Please create an account");
+            else{
+                System.out.println("Please enter room you would like to reserve");
+                String roomNum = scanner.nextLine();
 
+                if(substituteRooms.stream().anyMatch(r -> r.getRoomNumber().equals(roomNum))){
+                    IRoom room = hotelResource.getRoom(roomNum);
 
-//        System.out.println("Enter email format: name@domain.com");
-//        String email = scanner.nextLine();
-//        while (isNotValidEmail(email)) {
-//            System.out.println("Please enter a valid email \n");
-//            email = scanner.nextLine();
-//        }
+                    Reservation reservation = hotelResource.bookARoom(email,room,substituteCheckInDate,substituteCheckOutDate);
+                    System.out.println("Congrats! Reservations completed!");
+                    System.out.println("Reservations::"+reservation);
+                }else
+                    System.out.println("Room not available. Please start again");
+            }
+            mainMenu();
+        }else if (roomToBook.toLowerCase().charAt(0)=='n'){
+            System.out.println("Please create an account");
+            mainMenu();
+        }else
+            reserveRoom(substituteCheckInDate,substituteCheckOutDate,substituteRooms);
+
     }
 
     public static void myReservation() {
