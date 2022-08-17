@@ -9,8 +9,8 @@ import java.util.stream.Collectors;
 
 public class ReservationService {
     private static final ReservationService reservationService = new ReservationService( );
-    private static final Map<Customer,List<Reservation>> reservations = new HashMap<>();
-    private final List<Reservation> reservationList = new ArrayList<>();
+    private static final Map<String,Collection<Reservation>> reservations = new HashMap<>();
+    private final Collection<Reservation> reservationList = new LinkedList<>();
     private final Map<String,IRoom> rooms = new HashMap<>();
 
     private ReservationService(){}
@@ -34,21 +34,21 @@ public class ReservationService {
     public Reservation reserveARoom(final Customer customer, final IRoom room, final Date checkInDate, final Date checkOutDate){
         final Reservation reservation = new Reservation(customer,room,checkInDate,checkOutDate);
         reservationList.add(reservation);
-        reservations.put(customer,reservationList);
+        reservations.put(customer.getEmail(),reservationList);
         return reservation;
     }
 
     public Collection<IRoom> availableRooms(final Date checkInDate, final Date checkOutDate){
-        final Collection<IRoom> unavailableRooms = new ArrayList<>();
+        final Collection<IRoom> unavailableRooms = new LinkedList<>();
 
-        for (Reservation currentReservation:reservationList) {
-            if(checkInDate.before(currentReservation.getCheckOutDate()) && checkOutDate.after(currentReservation.getCheckInDate())){
-                unavailableRooms.add(currentReservation.getRoom());
+        for (Reservation reservation:reservationList) {
+            if(checkInDate.before(reservation.getCheckOutDate()) && checkOutDate.after(reservation.getCheckInDate())){
+                unavailableRooms.add(reservation.getRoom());
             }
         }
         return rooms.values().
                         stream().
-                            filter(availableRooms -> unavailableRooms.stream().noneMatch(notAvailableRoom -> notAvailableRoom.equals(availableRooms))).
+                            filter(r -> unavailableRooms.stream().noneMatch(notAvailableRoom -> notAvailableRoom.equals(r))).
                                 collect(Collectors.toList());
     }
 

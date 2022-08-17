@@ -95,24 +95,21 @@ public class MainMenu {
         if (availableRooms.isEmpty()) {
             Collection<IRoom> substituteRooms = hotelResource.findSubstituteRooms(checkInDate, checkOutDate);
 
-            if (substituteRooms.isEmpty())
-                System.out.println("No rooms");
-            else {
-                Date substituteCheckInDate = hotelResource.defaultDays(checkInDate);
-                Date substituteCheckOutDate = hotelResource.defaultDays(checkOutDate);
-                System.out.println("These are the only substitute rooms found for the \n");
-                System.out.println("Check In Date: " + checkInDate);
-                System.out.println("Check Out Date: " + checkOutDate);
+                    Date substituteCheckInDate = hotelResource.defaultDays(checkInDate);
+                    Date substituteCheckOutDate = hotelResource.defaultDays(checkOutDate);
+                    System.out.println("These are the only substitute rooms found for the \n");
+                    System.out.println("Check In Date: " + checkInDate);
+                    System.out.println("Check Out Date: " + checkOutDate);
 
-                //printing substitute rooms
-                substituteRooms.forEach(System.out::println);
-                reserveRoom(substituteCheckInDate, substituteCheckOutDate, substituteRooms);
+                    //printing substitute rooms
+                    substituteRooms.forEach(System.out::println);
+                    reserveRoom(substituteCheckInDate, substituteCheckOutDate, substituteRooms);
+        }else {
+                availableRooms.forEach(System.out::println);
+                reserveRoom(checkInDate, checkOutDate, availableRooms);
             }
-        } else {
-            availableRooms.forEach(System.out::println);
-            reserveRoom(checkInDate, checkOutDate,availableRooms);
-        }
-        mainMenu();
+            mainMenu();
+
     }
 
     private static void reserveRoom(Date substituteCheckInDate, Date substituteCheckOutDate, Collection<IRoom> substituteRooms) {

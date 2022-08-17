@@ -23,9 +23,7 @@ public class HotelResource {
     }
 
     public void createCustomerAccount(String email, String firstName, String lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        new Customer(firstName, lastName, email);
+        customerService.addCustomer(firstName,lastName,email);
     }
 
     public IRoom getRoom(String roomNumber) {

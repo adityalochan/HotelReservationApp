@@ -13,8 +13,8 @@ public class Customer {
         this.firstName=firstName;
         this.lastName=lastName;
         this.email=email;
-        if(!(pattern.matcher(this.email).matches())){
-            throw new IllegalArgumentException();
+        if(!(pattern.matcher(email).matches())){
+            throw new IllegalArgumentException("The email address is invalid ");
         }
     }
 
@@ -23,4 +23,5 @@ public class Customer {
         return "Customer '" + firstName + " " + lastName + "' has valid email address ";
     }
 
+    public String getEmail(){return this.email;}
 }
