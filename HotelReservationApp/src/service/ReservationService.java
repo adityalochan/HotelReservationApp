@@ -8,10 +8,10 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class ReservationService {
-    private static ReservationService reservationService = new ReservationService( );
-    static Map<Customer,List<Reservation>> mapOfReservation = new HashMap<>();
-    static List<Reservation> reservationList = new ArrayList<>();
-    Map<String,IRoom> rooms = new HashMap<>();
+    private static final ReservationService reservationService = new ReservationService( );
+    private static final Map<String,Collection<Reservation>> reservations = new HashMap<>();
+    private final Collection<Reservation> reservationList = new LinkedList<>();
+    private final Map<String,IRoom> rooms = new HashMap<>();
 
     private ReservationService(){}
 //    Reference : https://www.tutorialspoint.com/java/java_using_singleton.htm
@@ -19,11 +19,11 @@ public class ReservationService {
         return reservationService;
     }
 
-    public void addRoom(IRoom room){
+    public void addRoom(final IRoom room){
          rooms.put(room.getRoomNumber(),room);
     }
 
-    public IRoom getARoom(String roomId){
+    public IRoom getARoom(final String roomId){
         return rooms.get(roomId);
     }
 
@@ -31,29 +31,29 @@ public class ReservationService {
         return rooms.values();
     }
 
-    public Reservation reserveARoom(Customer customer, IRoom room, Date checkInDate, Date checkOutDate){
-        Reservation reservation = new Reservation(customer,room,checkInDate,checkOutDate);
+    public Reservation reserveARoom(final Customer customer, final IRoom room, final Date checkInDate, final Date checkOutDate){
+        final Reservation reservation = new Reservation(customer,room,checkInDate,checkOutDate);
         reservationList.add(reservation);
-        mapOfReservation.put(customer,reservationList);
+        reservations.put(customer.getEmail(),reservationList);
         return reservation;
     }
 
+    public Collection<IRoom> availableRooms(final Date checkInDate, final Date checkOutDate){
+        final Collection<IRoom> unavailableRooms = new LinkedList<>();
 
-    public Collection<IRoom> availableRooms(Date checkInDate, Date checkOutDate){
-        Collection<IRoom> unavailableRooms = new ArrayList<>();
-        for (Reservation currentReservation:reservationList) {
-            if(checkInDate.before(currentReservation.getCheckOutDate()) && checkOutDate.after(currentReservation.getCheckInDate())){
-                unavailableRooms.add(currentReservation.getRoom());
+        for (Reservation reservation:reservationList) {
+            if(checkInDate.before(reservation.getCheckOutDate()) && checkOutDate.after(reservation.getCheckInDate())){
+                unavailableRooms.add(reservation.getRoom());
             }
         }
         return rooms.values().
                         stream().
-                            filter(availableRooms -> unavailableRooms.stream().noneMatch(notAvailableRoom -> notAvailableRoom.equals(availableRooms))).
+                            filter(r -> unavailableRooms.stream().noneMatch(notAvailableRoom -> notAvailableRoom.equals(r))).
                                 collect(Collectors.toList());
     }
 
-    public Collection<Reservation> getCustomerReservation(Customer customer){
-        return mapOfReservation.get(customer);
+    public Collection<Reservation> getCustomerReservation(final Customer customer){
+        return reservations.get(customer);
     }
 
     public void printAllReservation(){
@@ -67,7 +67,16 @@ public class ReservationService {
         }
     }
 
-    String classInvoked() {
-        return "Class ReservationService Invoked";
+    public Collection<IRoom> findSubstituteRooms(Date checkInDate, Date checkOutDate) {
+        return availableRooms(defaultDays(checkInDate),defaultDays(checkOutDate));
     }
+
+    public Date defaultDays(Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.DATE,8);
+        return cal.getTime();
+    }
+
+
 }

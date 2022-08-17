@@ -4,10 +4,8 @@ import api.HotelResource;
 import model.IRoom;
 import model.Reservation;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Date;
 import java.util.Scanner;
 import java.util.regex.Pattern;
@@ -93,11 +91,61 @@ public class MainMenu {
             checkOutDate = correctDate(scanner);
 
         Collection<IRoom> availableRooms = hotelResource.findARoom(checkInDate,checkOutDate);
-        if(!availableRooms.isEmpty())
-            availableRooms.forEach(System.out::println);
-        else
-            System.out.println("No booking");
-        mainMenu();
+
+        if (availableRooms.isEmpty()) {
+            Collection<IRoom> substituteRooms = hotelResource.findSubstituteRooms(checkInDate, checkOutDate);
+
+                    Date substituteCheckInDate = hotelResource.defaultDays(checkInDate);
+                    Date substituteCheckOutDate = hotelResource.defaultDays(checkOutDate);
+                    System.out.println("These are the only substitute rooms found for the \n");
+                    System.out.println("Check In Date: " + checkInDate);
+                    System.out.println("Check Out Date: " + checkOutDate);
+
+                    //printing substitute rooms
+                    substituteRooms.forEach(System.out::println);
+                    reserveRoom(substituteCheckInDate, substituteCheckOutDate, substituteRooms);
+        }else {
+                availableRooms.forEach(System.out::println);
+                reserveRoom(checkInDate, checkOutDate, availableRooms);
+            }
+            mainMenu();
+
+    }
+
+    private static void reserveRoom(Date substituteCheckInDate, Date substituteCheckOutDate, Collection<IRoom> substituteRooms) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Would you like to book the room? y/n");
+        String roomToBook = scanner.nextLine();
+
+        if(roomToBook.toLowerCase().charAt(0)=='y'){
+            System.out.println("Enter email format: name@domain.com");
+            String email = scanner.nextLine();
+            while (isNotValidEmail(email)) {
+                System.out.println("Please enter a valid email \n");
+                email = scanner.nextLine();
+            }
+            if(hotelResource.getCustomer(email)==null)
+                System.out.println("No customer found. Please create an account");
+            else{
+                System.out.println("Please enter room you would like to reserve");
+                String roomNum = scanner.nextLine();
+
+                if(substituteRooms.stream().anyMatch(r -> r.getRoomNumber().equals(roomNum))){
+                    IRoom room = hotelResource.getRoom(roomNum);
+
+                    Reservation reservation = hotelResource.bookARoom(email,room,substituteCheckInDate,substituteCheckOutDate);
+                    System.out.println("Congrats! Reservations completed!");
+                    System.out.println("Reservations::"+reservation);
+                }else
+                    System.out.println("Room not available. Please start again");
+            }
+            mainMenu();
+        }else if (roomToBook.toLowerCase().charAt(0)=='n'){
+            System.out.println("Please create an account");
+            mainMenu();
+        }else
+            reserveRoom(substituteCheckInDate,substituteCheckOutDate,substituteRooms);
+
     }
 
     public static void myReservation() {
