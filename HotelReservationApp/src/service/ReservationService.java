@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 public class ReservationService {
     private static final ReservationService reservationService = new ReservationService( );
     private static final Map<String,Collection<Reservation>> reservations = new HashMap<>();
-    private final Collection<Reservation> reservationList = new LinkedList<>();
     private final Map<String,IRoom> rooms = new HashMap<>();
 
     private ReservationService(){}
@@ -33,15 +32,19 @@ public class ReservationService {
 
     public Reservation reserveARoom(final Customer customer, final IRoom room, final Date checkInDate, final Date checkOutDate){
         final Reservation reservation = new Reservation(customer,room,checkInDate,checkOutDate);
-        reservationList.add(reservation);
-        reservations.put(customer.getEmail(),reservationList);
+        Collection<Reservation> allReservations = reservations.get(customer.getEmail());
+
+        if(allReservations==null) allReservations=new LinkedList<>();
+
+        allReservations.add(reservation);
+        reservations.put(customer.getEmail(), allReservations);
         return reservation;
     }
 
     public Collection<IRoom> availableRooms(final Date checkInDate, final Date checkOutDate){
         final Collection<IRoom> unavailableRooms = new LinkedList<>();
 
-        for (Reservation reservation:reservationList) {
+        for (Reservation reservation:allReservations()) {
             if(checkInDate.before(reservation.getCheckOutDate()) && checkOutDate.after(reservation.getCheckInDate())){
                 unavailableRooms.add(reservation.getRoom());
             }
@@ -53,15 +56,15 @@ public class ReservationService {
     }
 
     public Collection<Reservation> getCustomerReservation(final Customer customer){
-        return reservations.get(customer);
+        return reservations.get(customer.getEmail());
     }
 
     public void printAllReservation(){
-        if(reservationList.isEmpty()){
+        if(allReservations().isEmpty()){
             System.out.println("No Reservations Currently");
             AdminMenu.adminMenu();
         }else {
-            for (Reservation reservation : reservationList) {
+            for (Reservation reservation : allReservations()) {
                 System.out.println(reservation + " \n");
             }
         }
@@ -78,5 +81,15 @@ public class ReservationService {
         return cal.getTime();
     }
 
+    String display(){
+        return "Entered Reservation Service class";
+    }
+
+    public Collection<Reservation> allReservations(){
+        Collection<Reservation> allReservations = new LinkedList<>();
+
+        for(Collection<Reservation> reservations : reservations.values()) allReservations.addAll(reservations);
+        return allReservations;
+    }
 
 }

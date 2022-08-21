@@ -6,7 +6,7 @@ import java.util.*;
 
 public class CustomerService {
     private static CustomerService customerService = new CustomerService( );
-    static Map<String,Customer> customerList = new HashMap<>();
+    static Map<String,Customer> mapOfCustomer = new HashMap<>();
 
     private CustomerService(){}
 
@@ -15,15 +15,15 @@ public class CustomerService {
     }
 
     public void addCustomer(String firstName, String lastName, String email){
-        customerList.put(email,new Customer(firstName, lastName, email));
+        mapOfCustomer.put(email,new Customer(firstName, lastName, email));
     }
 
     public Customer getCustomer(String customerEmail){
-        return customerList.get(customerEmail);
+        return mapOfCustomer.get(customerEmail);
     }
 
     public Collection<Customer> getAllCustomers(){
-        return customerList.values();
+        return mapOfCustomer.values();
     }
 
 }

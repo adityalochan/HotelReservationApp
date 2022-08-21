@@ -89,7 +89,7 @@ public class MainMenu {
         Date checkOutDate = correctDate(scanner);
         while(checkOutDate==null)
             checkOutDate = correctDate(scanner);
-
+        System.out.println("breakpoint");
         Collection<IRoom> availableRooms = hotelResource.findARoom(checkInDate,checkOutDate);
 
         if (availableRooms.isEmpty()) {
@@ -156,19 +156,13 @@ public class MainMenu {
             System.out.println("Please enter a valid email \n");
             email = scanner.nextLine();
         }
-        Collection<Reservation> tmp = hotelResource.getCustomersReservations(email);
-        if (tmp == null) {
+        Collection<Reservation> reservations = hotelResource.getCustomersReservations(email);
+        System.out.println("breakpoint");
+        if (reservations == null || reservations.isEmpty()) {
             System.out.println("No records \n");
             mainMenu();
-        } else {
-            try {
-                for (Reservation r : tmp) {
-                    System.out.println(r.getCustomer());
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+        } else
+            reservations.forEach(r -> System.out.println(" " + r));
     }
 
     public static boolean isNotValidEmail(String email) {
@@ -178,14 +172,12 @@ public class MainMenu {
     }
 
     public static Date correctDate(Scanner scanner){
-        SimpleDateFormat checkDate = new SimpleDateFormat("mm/dd/yyyy");
-        Date val;
         try {
-            val = checkDate.parse(scanner.nextLine());
+            return new SimpleDateFormat("MM/dd/yyyy").parse(scanner.nextLine());
         }catch (Exception e){
             System.out.println("Please enter valid date of format mm/dd/yyyy");
-            return null;
+            findAndReserveRoom();
         }
-        return val;
+        return null;
     }
 }
