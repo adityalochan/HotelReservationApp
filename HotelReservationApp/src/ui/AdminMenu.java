@@ -78,6 +78,7 @@ public class AdminMenu {
 
     public static void displayAllReservations() {
         adminResource.displayAllReservations();
+        adminMenu();
     }
 
     public static void addRoom() {

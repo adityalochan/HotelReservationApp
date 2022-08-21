@@ -14,9 +14,6 @@ public class HotelResource {
 
     ReservationService reservationService = ReservationService.getInstance();
     CustomerService customerService = CustomerService.getInstance();
-    List<Reservation> reservationList = new ArrayList<>();
-    private Map<String, List<Reservation>> mapOfReservation = new HashMap<>();
-
 
     public Customer getCustomer(String email) {
         return customerService.getCustomer(email);
@@ -31,15 +28,12 @@ public class HotelResource {
     }
 
     public Reservation bookARoom(String customerEmail, IRoom room, Date checkInDate, Date checkOutDate) {
-        Customer customer = new Customer(firstName, lastName, customerEmail);
-        Reservation reservation1 = new Reservation(customer, room, checkInDate, checkOutDate);
-        reservationList.add(reservation1);
-        mapOfReservation.put(customerEmail, reservationList);
-        return reservation1;
+        return reservationService.reserveARoom(getCustomer(customerEmail),room,checkInDate,checkOutDate);
     }
 
     public Collection<Reservation> getCustomersReservations(String customerEmail) {
-        return mapOfReservation.get(customerEmail);
+        if(getCustomer(customerEmail)==null) return Collections.emptyList();
+        return reservationService.getCustomerReservation(getCustomer(customerEmail));
     }
 
     public Collection<IRoom> findARoom(Date checkIn, Date checkOut) {

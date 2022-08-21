@@ -20,7 +20,7 @@ public class Customer {
 
     @Override
     public String toString(){
-        return "Customer '" + firstName + " " + lastName + "' has valid email address ";
+        return "Customer::" + this.firstName + " " + this.lastName + " Email::"+this.email;
     }
 
     public String getEmail(){return this.email;}
