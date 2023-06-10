@@ -1,0 +1,56 @@
+[
+  {
+    "id": 1,
+    "firstname": "John",
+    "lastname": "Doe", "address_Address1": "169 Second Rd.", "address_Address2": null, "address_City": "Ottumwa", "address_State": "IA", "address_Country": "US", "address_ZipCode": "52501", "createdAt": "2021-01-01T00: 00: 00", "bankAccounts": [
+    {
+      "id": 1,
+      "bankUserId": 1,
+      "accountType": 0,
+      "amount": 100,
+      "enabled": true,
+      "createdAt": "2021-01-01T00: 00: 00", "updatedAt": "2021-01-01T00: 00: 00"
+    }, {
+      "id": 2,
+      "bankUserId": 1,
+      "accountType": 1,
+      "amount": 0,
+      "enabled": true,
+      "createdAt": "2021-01-01T00: 00: 00", "updatedAt": "2021-01-01T00: 00: 00"
+    }
+  ]
+  },
+  {
+  "id": 2,
+  "firstname": "Jane",
+  "lastname": "Doe", "address_Address1": "169SecondRd.", "address_Address2": null, "address_City": "Ottumwa", "address_State": "IA", "address_Country": "US", "address_ZipCode": "52501", "createdAt": "2021-01-01T00: 00: 00",
+    "bankAccounts": [
+    {
+      "id": 3,
+      "bankUserId": 2,
+      "accountType": 0,
+      "amount": 100,
+      "enabled": true,
+      "createdAt": "2021-01-01T00: 00: 00", "updatedAt": "2021-01-01T00: 00: 00",
+      "bankAccounts": [
+        {
+          "id": 3,
+          "bankUserId": 2,
+          "accountType": 0,
+          "amount": 100,
+          "enabled": true,
+          "createdAt": "2021-01-01T00: 00: 00", "updatedAt": "2021-01-01T00: 00: 00"
+        }, {
+        }
+      ]
+    }
+    ],
+    "id": 4,
+    "bankUserId": 2,
+    "accountType": 2,
+    "amount": 0,
+    "enabled": false,
+    "createdAt": "2021-01-01T00: 00: 00", "updatedAt": "2021-01-01T00: 00: 00",
+  } ]
+} 
+]
